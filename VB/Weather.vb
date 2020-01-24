@@ -7,7 +7,7 @@ Imports System.Xml
 Imports System.Net
 Imports System.Web
 Imports DevExpress.Utils
-Imports DevExpress.Docs.Text
+
 
 Namespace DocumentVariablesExample
 	Friend Class Weather
@@ -58,12 +58,9 @@ Namespace DocumentVariablesExample
 			Try
 				Dim wbc As New WebClient()
 				Dim bytes() As Byte = wbc.DownloadData(String.Format("http://www.google.com/ig/api?weather={0}", HttpUtility.UrlEncode(location)))
-				Dim detector As New EncodingDetector()
-				Dim encoding As Encoding = detector.Detect(bytes)
-				If encoding Is Nothing Then
-					encoding = Encoding.UTF8
-				End If
-				Dim response As String = encoding.GetString(bytes)
+                Dim encoding As Encoding = Encoding.UTF8
+
+                Dim response As String = encoding.GetString(bytes)
 				xmlConditions.LoadXml(response)
 			Catch ex As Exception
 				If ex.Message IsNot Nothing Then

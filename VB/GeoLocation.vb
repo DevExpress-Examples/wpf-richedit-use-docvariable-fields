@@ -9,7 +9,7 @@ Imports System.Text.RegularExpressions
 Imports System.Xml
 Imports System.Globalization
 Imports DevExpress.Utils
-Imports DevExpress.Docs.Text
+
 
 Namespace DocumentVariablesExample
 	Public Class GeoLocation
