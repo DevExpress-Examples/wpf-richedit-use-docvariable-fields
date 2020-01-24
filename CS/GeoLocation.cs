@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using System.Xml;
 using System.Globalization;
 using DevExpress.Utils;
-using DevExpress.Docs.Text;
+
 
 namespace DocumentVariablesExample
 {
