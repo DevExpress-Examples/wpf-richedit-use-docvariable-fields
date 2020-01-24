@@ -1,5 +1,4 @@
-﻿Imports Microsoft.VisualBasic
-Imports System
+﻿Imports System
 Imports System.Windows
 Imports DevExpress.XtraRichEdit.API.Native
 Imports DevExpress.XtraRichEdit
@@ -16,6 +15,7 @@ Namespace DocumentVariablesExample
 	''' </summary>
 	Partial Public Class MainWindow
 		Inherits Window
+
 		Private richEdit As RichEditControl
 
 		Public Sub New()
@@ -51,7 +51,7 @@ Namespace DocumentVariablesExample
 
 		#Region "#mailmergerecordstarted"
 		Private Sub richEditControl1_MailMergeRecordStarted(ByVal sender As Object, ByVal e As MailMergeRecordStartedEventArgs)
-			Dim _range As DocumentRange = e.RecordDocument.InsertText(e.RecordDocument.Range.Start, String.Format("Created on {0:G}" & Constants.vbLf + Constants.vbLf, DateTime.Now))
+			Dim _range As DocumentRange = e.RecordDocument.InsertText(e.RecordDocument.Range.Start, String.Format("Created on {0:G}" & vbLf & vbLf, Date.Now))
 			Dim cp As CharacterProperties = e.RecordDocument.BeginUpdateCharacters(_range)
 			cp.FontSize = 8
 			cp.ForeColor = Color.Red
@@ -87,7 +87,7 @@ Namespace DocumentVariablesExample
 				'    break;
 				Case "Location"
 					Dim loc() As GeoLocation = GeoLocation.GeocodeAddress(location)
-					e.Value = String.Format(" {0}" & Constants.vbLf & "Latitude: {1}" & Constants.vbLf & "Longitude: {2}" & Constants.vbLf, loc(0).Address, loc(0).Latitude.ToString(), loc(0).Longitude.ToString())
+					e.Value = String.Format(" {0}" & vbLf & "Latitude: {1}" & vbLf & "Longitude: {2}" & vbLf, loc(0).Address, loc(0).Latitude.ToString(), loc(0).Longitude.ToString())
 			End Select
 			e.Handled = True
 		End Sub

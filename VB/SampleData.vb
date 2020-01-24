@@ -1,5 +1,4 @@
-﻿Imports Microsoft.VisualBasic
-Imports System
+﻿Imports System
 Imports System.Collections.Generic
 Imports System.Text
 Imports System.Collections
@@ -7,6 +6,7 @@ Imports System.Collections
 Namespace DocumentVariablesExample
 	Friend Class SampleData
 		Inherits ArrayList
+
 		Public Sub New()
 			Add(New AddresseeRecord("Maria", "Alfreds Futterkiste", "Obere Str. 57, Berlin", "Berlin"))
 			Add(New AddresseeRecord("Laurence", "Bon app'", "12, rue des Bouchers, Marseille", "Marseille"))

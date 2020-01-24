@@ -1,5 +1,4 @@
-﻿Imports Microsoft.VisualBasic
-Imports System
+﻿Imports System
 Imports System.Collections.Generic
 Imports System.Linq
 Imports System.Text
@@ -7,7 +6,7 @@ Imports System.Xml
 Imports System.Net
 Imports System.Web
 Imports DevExpress.Utils
-Imports DevExpress.Docs.Text
+
 
 Namespace DocumentVariablesExample
 	Friend Class Weather
@@ -58,11 +57,11 @@ Namespace DocumentVariablesExample
 			Try
 				Dim wbc As New WebClient()
 				Dim bytes() As Byte = wbc.DownloadData(String.Format("http://www.google.com/ig/api?weather={0}", HttpUtility.UrlEncode(location)))
-				Dim detector As New EncodingDetector()
-				Dim encoding As Encoding = detector.Detect(bytes)
-				If encoding Is Nothing Then
-					encoding = Encoding.UTF8
-				End If
+'INSTANT VB WARNING: An assignment within expression was extracted from the following statement:
+'ORIGINAL LINE: Encoding encoding = encoding = Encoding.UTF8;
+				encoding = System.Text.Encoding.UTF8
+				Dim encoding As Encoding = encoding
+
 				Dim response As String = encoding.GetString(bytes)
 				xmlConditions.LoadXml(response)
 			Catch ex As Exception
@@ -89,14 +88,23 @@ Namespace DocumentVariablesExample
 		End Function
 	End Class
 	Public Class Conditions
+'INSTANT VB NOTE: The field city was renamed since Visual Basic does not allow fields to have the same name as other class members:
 		Private city_Renamed As String = "No Data"
-		Private dayOfWeek_Renamed As String = DateTime.Now.DayOfWeek.ToString()
+'INSTANT VB NOTE: The field dayOfWeek was renamed since Visual Basic does not allow fields to have the same name as other class members:
+		Private dayOfWeek_Renamed As String = Date.Now.DayOfWeek.ToString()
+'INSTANT VB NOTE: The field condition was renamed since Visual Basic does not allow fields to have the same name as other class members:
 		Private condition_Renamed As String = "No Data"
+'INSTANT VB NOTE: The field tempF was renamed since Visual Basic does not allow fields to have the same name as other class members:
 		Private tempF_Renamed As String = "No Data"
+'INSTANT VB NOTE: The field tempC was renamed since Visual Basic does not allow fields to have the same name as other class members:
 		Private tempC_Renamed As String = "No Data"
+'INSTANT VB NOTE: The field humidity was renamed since Visual Basic does not allow fields to have the same name as other class members:
 		Private humidity_Renamed As String = "No Data"
+'INSTANT VB NOTE: The field wind was renamed since Visual Basic does not allow fields to have the same name as other class members:
 		Private wind_Renamed As String = "No Data"
+'INSTANT VB NOTE: The field high was renamed since Visual Basic does not allow fields to have the same name as other class members:
 		Private high_Renamed As String = "No Data"
+'INSTANT VB NOTE: The field low was renamed since Visual Basic does not allow fields to have the same name as other class members:
 		Private low_Renamed As String = "No Data"
 
 		Public Property City() As String
