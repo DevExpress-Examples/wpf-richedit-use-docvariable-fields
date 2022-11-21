@@ -6,7 +6,7 @@ using System.Xml;
 using System.Net;
 using System.Web;
 using DevExpress.Utils;
-
+using System.Net.Http;
 
 namespace DocumentVariablesExample
 {
@@ -59,8 +59,8 @@ namespace DocumentVariablesExample
             XmlDocument xmlConditions = new XmlDocument();
             
             try {
-                WebClient wbc = new WebClient();
-                byte[] bytes = wbc.DownloadData(string.Format("http://www.google.com/ig/api?weather={0}", HttpUtility.UrlEncode(location)));
+                HttpClient wbc = new HttpClient();
+                byte[] bytes = wbc.GetByteArrayAsync(string.Format("http://www.google.com/ig/api?weather={0}", HttpUtility.UrlEncode(location))).Result;
                 Encoding encoding = encoding = Encoding.UTF8;
                 
                 string response = encoding.GetString(bytes);
