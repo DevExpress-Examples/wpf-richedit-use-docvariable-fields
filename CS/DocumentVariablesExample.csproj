@@ -84,8 +84,9 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml">
+    <Reference Include="System.Xaml">  
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    <Reference Include="System.Net.Http"/>    
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
