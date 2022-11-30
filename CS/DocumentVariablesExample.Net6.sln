@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentVariablesExample.Net6", "DocumentVariablesExample.Net6.csproj", "{61441759-5530-4310-9A65-6CF1748066C4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{61441759-5530-4310-9A65-6CF1748066C4}.Debug|x86.ActiveCfg = Debug|x86
+		{61441759-5530-4310-9A65-6CF1748066C4}.Debug|x86.Build.0 = Debug|x86
+		{61441759-5530-4310-9A65-6CF1748066C4}.Release|x86.ActiveCfg = Release|x86
+		{61441759-5530-4310-9A65-6CF1748066C4}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C52A51D3-E49D-46A2-8F5E-6D156469C48D}
+	EndGlobalSection
+EndGlobal
