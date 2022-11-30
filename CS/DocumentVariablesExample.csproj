@@ -38,9 +38,7 @@
 		<WarningLevel>4</WarningLevel>
 		<Prefer32Bit>false</Prefer32Bit>
 	</PropertyGroup>
-	<ItemGroup>
-		<SupportedPlatform Include="windows" />
-	</ItemGroup>
+
 
 	<ItemGroup>
 		<Reference Include="DevExpress.Drawing.v22.1, Version=22.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
