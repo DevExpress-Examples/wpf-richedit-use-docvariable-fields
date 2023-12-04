@@ -1,183 +1,191 @@
-﻿Imports Microsoft.VisualBasic
 Imports System
 Imports System.Collections.Generic
-Imports System.Linq
 Imports System.Text
 Imports System.Xml
 Imports System.Net
 Imports System.Web
-Imports DevExpress.Utils
 Imports DevExpress.Docs.Text
 
 Namespace DocumentVariablesExample
-	Friend Class Weather
-		' Review the Google Maps/Google Earth APIs Terms of Service document
-		' before using the code that access weather services
 
-		Public Shared Function GetCurrentConditions(ByVal location As String) As Conditions
-			Dim conditions As New Conditions()
+    Friend Class Weather
 
-			'XmlDocument xmlConditions = new XmlDocument();
-			'try {
-			'    WebClient wbc = new WebClient();
-			'    byte[] bytes = wbc.DownloadData(string.Format("http://www.google.com/ig/api?weather={0}", HttpUtility.UrlEncode(location)));
-			'    EncodingDetector detector = new EncodingDetector();
-			'    Encoding encoding = detector.Detect(bytes);
-			'    if (encoding == null)
-			'        encoding = Encoding.UTF8;
-			'    string response = encoding.GetString(bytes);
-			'    xmlConditions.LoadXml(response);
-			'}
-			'catch (Exception ex) {
-			'    if (ex.Message != null)
-			'    return conditions;
-			'}
+        ' Review the Google Maps/Google Earth APIs Terms of Service document
+        ' before using the code that access weather services
+        Public Shared Function GetCurrentConditions(ByVal location As String) As Conditions
+            Dim conditions As Conditions = New Conditions()
+            'XmlDocument xmlConditions = new XmlDocument();
+            'try {
+            '    WebClient wbc = new WebClient();
+            '    byte[] bytes = wbc.DownloadData(string.Format("http://www.google.com/ig/api?weather={0}", HttpUtility.UrlEncode(location)));
+            '    EncodingDetector detector = new EncodingDetector();
+            '    Encoding encoding = detector.Detect(bytes);
+            '    if (encoding == null)
+            '        encoding = Encoding.UTF8;
+            '    string response = encoding.GetString(bytes);
+            '    xmlConditions.LoadXml(response);
+            '}
+            'catch (Exception ex) {
+            '    if (ex.Message != null)
+            '    return conditions;
+            '}
+            'if (xmlConditions.SelectSingleNode("xml_api_reply/weather/problem_cause") == null) {
+            '    conditions.City = xmlConditions.SelectSingleNode("/xml_api_reply/weather/forecast_information/city").Attributes["data"].InnerText;
+            '    conditions.Condition = xmlConditions.SelectSingleNode("/xml_api_reply/weather/current_conditions/condition").Attributes["data"].InnerText;
+            '    conditions.TempC = xmlConditions.SelectSingleNode("/xml_api_reply/weather/current_conditions/temp_c").Attributes["data"].InnerText;
+            '    conditions.TempF = xmlConditions.SelectSingleNode("/xml_api_reply/weather/current_conditions/temp_f").Attributes["data"].InnerText;
+            '    conditions.Humidity = xmlConditions.SelectSingleNode("/xml_api_reply/weather/current_conditions/humidity").Attributes["data"].InnerText;
+            '    conditions.Wind = xmlConditions.SelectSingleNode("/xml_api_reply/weather/current_conditions/wind_condition").Attributes["data"].InnerText;
+            '}
+            Return conditions
+        End Function
 
-			'if (xmlConditions.SelectSingleNode("xml_api_reply/weather/problem_cause") == null) {
-			'    conditions.City = xmlConditions.SelectSingleNode("/xml_api_reply/weather/forecast_information/city").Attributes["data"].InnerText;
-			'    conditions.Condition = xmlConditions.SelectSingleNode("/xml_api_reply/weather/current_conditions/condition").Attributes["data"].InnerText;
-			'    conditions.TempC = xmlConditions.SelectSingleNode("/xml_api_reply/weather/current_conditions/temp_c").Attributes["data"].InnerText;
-			'    conditions.TempF = xmlConditions.SelectSingleNode("/xml_api_reply/weather/current_conditions/temp_f").Attributes["data"].InnerText;
-			'    conditions.Humidity = xmlConditions.SelectSingleNode("/xml_api_reply/weather/current_conditions/humidity").Attributes["data"].InnerText;
-			'    conditions.Wind = xmlConditions.SelectSingleNode("/xml_api_reply/weather/current_conditions/wind_condition").Attributes["data"].InnerText;
-			'}
+        ''' <summary>
+        ''' The function that gets the forecast for the next four days.
+        ''' </summary>
+        ''' <param name="location">City or ZIP code</param>
+        ''' <returns></returns>
+        Public Shared Function GetForecast(ByVal location As String) As List(Of Conditions)
+            Dim conditions As List(Of Conditions) = New List(Of Conditions)()
+            Dim xmlConditions As XmlDocument = New XmlDocument()
+            Try
+                Dim wbc As WebClient = New WebClient()
+                Dim bytes As Byte() = wbc.DownloadData(String.Format("http://www.google.com/ig/api?weather={0}", HttpUtility.UrlEncode(location)))
+                Dim detector As EncodingDetector = New EncodingDetector()
+                Dim encoding As Encoding = detector.Detect(bytes)
+                If encoding Is Nothing Then encoding = Encoding.UTF8
+                Dim response As String = encoding.GetString(bytes)
+                xmlConditions.LoadXml(response)
+            Catch ex As Exception
+                If Not Equals(ex.Message, Nothing) Then Return conditions
+            End Try
 
-			Return conditions
-		End Function
+            If xmlConditions.SelectSingleNode("xml_api_reply/weather/problem_cause") IsNot Nothing Then
+                conditions = Nothing
+            Else
+                For Each node As XmlNode In xmlConditions.SelectNodes("/xml_api_reply/weather/forecast_conditions")
+                    Dim condition As Conditions = New Conditions()
+                    condition.City = xmlConditions.SelectSingleNode("/xml_api_reply/weather/forecast_information/city").Attributes("data").InnerText
+                    condition.Condition = node.SelectSingleNode("condition").Attributes("data").InnerText
+                    condition.High = node.SelectSingleNode("high").Attributes("data").InnerText
+                    condition.Low = node.SelectSingleNode("low").Attributes("data").InnerText
+                    condition.DayOfWeek = node.SelectSingleNode("day_of_week").Attributes("data").InnerText
+                    conditions.Add(condition)
+                Next
+            End If
 
-		''' <summary>
-		''' The function that gets the forecast for the next four days.
-		''' </summary>
-		''' <param name="location">City or ZIP code</param>
-		''' <returns></returns>
-		Public Shared Function GetForecast(ByVal location As String) As List(Of Conditions)
-			Dim conditions As New List(Of Conditions)()
+            Return conditions
+        End Function
+    End Class
 
-			Dim xmlConditions As New XmlDocument()
+    Public Class Conditions
 
-			Try
-				Dim wbc As New WebClient()
-				Dim bytes() As Byte = wbc.DownloadData(String.Format("http://www.google.com/ig/api?weather={0}", HttpUtility.UrlEncode(location)))
-				Dim detector As New EncodingDetector()
-				Dim encoding As Encoding = detector.Detect(bytes)
-				If encoding Is Nothing Then
-					encoding = Encoding.UTF8
-				End If
-				Dim response As String = encoding.GetString(bytes)
-				xmlConditions.LoadXml(response)
-			Catch ex As Exception
-				If ex.Message IsNot Nothing Then
-					Return conditions
-				End If
-			End Try
+        Private cityField As String = "No Data"
 
-			If xmlConditions.SelectSingleNode("xml_api_reply/weather/problem_cause") IsNot Nothing Then
-				conditions = Nothing
-			Else
-				For Each node As XmlNode In xmlConditions.SelectNodes("/xml_api_reply/weather/forecast_conditions")
-					Dim condition As New Conditions()
-					condition.City = xmlConditions.SelectSingleNode("/xml_api_reply/weather/forecast_information/city").Attributes("data").InnerText
-					condition.Condition = node.SelectSingleNode("condition").Attributes("data").InnerText
-					condition.High = node.SelectSingleNode("high").Attributes("data").InnerText
-					condition.Low = node.SelectSingleNode("low").Attributes("data").InnerText
-					condition.DayOfWeek = node.SelectSingleNode("day_of_week").Attributes("data").InnerText
-					conditions.Add(condition)
-				Next node
-			End If
+        Private dayOfWeekField As String = Date.Now.DayOfWeek.ToString()
 
-			Return conditions
-		End Function
-	End Class
-	Public Class Conditions
-		Private city_Renamed As String = "No Data"
-		Private dayOfWeek_Renamed As String = DateTime.Now.DayOfWeek.ToString()
-		Private condition_Renamed As String = "No Data"
-		Private tempF_Renamed As String = "No Data"
-		Private tempC_Renamed As String = "No Data"
-		Private humidity_Renamed As String = "No Data"
-		Private wind_Renamed As String = "No Data"
-		Private high_Renamed As String = "No Data"
-		Private low_Renamed As String = "No Data"
+        Private conditionField As String = "No Data"
 
-		Public Property City() As String
-			Get
-				Return city_Renamed
-			End Get
-			Set(ByVal value As String)
-				city_Renamed = value
-			End Set
-		End Property
+        Private tempFField As String = "No Data"
 
-		Public Property Condition() As String
-			Get
-				Return condition_Renamed
-			End Get
-			Set(ByVal value As String)
-				condition_Renamed = value
-			End Set
-		End Property
+        Private tempCField As String = "No Data"
 
-		Public Property TempF() As String
-			Get
-				Return tempF_Renamed
-			End Get
-			Set(ByVal value As String)
-				tempF_Renamed = value
-			End Set
-		End Property
+        Private humidityField As String = "No Data"
 
-		Public Property TempC() As String
-			Get
-				Return tempC_Renamed
-			End Get
-			Set(ByVal value As String)
-				tempC_Renamed = value
-			End Set
-		End Property
+        Private windField As String = "No Data"
 
-		Public Property Humidity() As String
-			Get
-				Return humidity_Renamed
-			End Get
-			Set(ByVal value As String)
-				humidity_Renamed = value
-			End Set
-		End Property
+        Private highField As String = "No Data"
 
-		Public Property Wind() As String
-			Get
-				Return wind_Renamed
-			End Get
-			Set(ByVal value As String)
-				wind_Renamed = value
-			End Set
-		End Property
+        Private lowField As String = "No Data"
 
-		Public Property DayOfWeek() As String
-			Get
-				Return dayOfWeek_Renamed
-			End Get
-			Set(ByVal value As String)
-				dayOfWeek_Renamed = value
-			End Set
-		End Property
+        Public Property City As String
+            Get
+                Return cityField
+            End Get
 
-		Public Property High() As String
-			Get
-				Return high_Renamed
-			End Get
-			Set(ByVal value As String)
-				high_Renamed = value
-			End Set
-		End Property
+            Set(ByVal value As String)
+                cityField = value
+            End Set
+        End Property
 
-		Public Property Low() As String
-			Get
-				Return low_Renamed
-			End Get
-			Set(ByVal value As String)
-				low_Renamed = value
-			End Set
-		End Property
-	End Class
+        Public Property Condition As String
+            Get
+                Return conditionField
+            End Get
+
+            Set(ByVal value As String)
+                conditionField = value
+            End Set
+        End Property
+
+        Public Property TempF As String
+            Get
+                Return tempFField
+            End Get
+
+            Set(ByVal value As String)
+                tempFField = value
+            End Set
+        End Property
+
+        Public Property TempC As String
+            Get
+                Return tempCField
+            End Get
+
+            Set(ByVal value As String)
+                tempCField = value
+            End Set
+        End Property
+
+        Public Property Humidity As String
+            Get
+                Return humidityField
+            End Get
+
+            Set(ByVal value As String)
+                humidityField = value
+            End Set
+        End Property
+
+        Public Property Wind As String
+            Get
+                Return windField
+            End Get
+
+            Set(ByVal value As String)
+                windField = value
+            End Set
+        End Property
+
+        Public Property DayOfWeek As String
+            Get
+                Return dayOfWeekField
+            End Get
+
+            Set(ByVal value As String)
+                dayOfWeekField = value
+            End Set
+        End Property
+
+        Public Property High As String
+            Get
+                Return highField
+            End Get
+
+            Set(ByVal value As String)
+                highField = value
+            End Set
+        End Property
+
+        Public Property Low As String
+            Get
+                Return lowField
+            End Get
+
+            Set(ByVal value As String)
+                lowField = value
+            End Set
+        End Property
+    End Class
 End Namespace
