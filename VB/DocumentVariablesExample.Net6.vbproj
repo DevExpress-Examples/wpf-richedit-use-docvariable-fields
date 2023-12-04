@@ -31,7 +31,7 @@
     <SupportedPlatform Include="windows" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DevExpress.Wpf.RichEdit" Version="21.1.11" />
-    <PackageReference Include="DevExpress.Wpf.Themes.Office2016White" Version="21.1.11" />
+    <PackageReference Include="DevExpress.Wpf.RichEdit" Version="21.1.12" />
+    <PackageReference Include="DevExpress.Wpf.Themes.Office2016White" Version="21.1.12" />
   </ItemGroup>
 </Project>
