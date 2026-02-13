@@ -31,7 +31,7 @@ The `MyProgressIndicatorService` class is implemented and registered as a servic
 
 * [DOCVARIABLE Field](https://docs.devexpress.com/WPF/10299/controls-and-libraries/rich-text-editor/fields/field-codes/docvariable)
 <!-- feedback -->
-## Does this example address your development requirements/objectives?
+## Does This Example Address Your Development Requirements/Objectives?
 
 [<img src="https://www.devexpress.com/support/examples/i/yes-button.svg"/>](https://www.devexpress.com/support/examples/survey.xml?utm_source=github&utm_campaign=wpf-richedit-use-docvariable-fields&~~~was_helpful=yes) [<img src="https://www.devexpress.com/support/examples/i/no-button.svg"/>](https://www.devexpress.com/support/examples/survey.xml?utm_source=github&utm_campaign=wpf-richedit-use-docvariable-fields&~~~was_helpful=no)
 
